@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>soleX — P-6000</title>
+<meta name="description" content="soleX — the P-6000 running shoe. Chunky retro silhouette, ripstop mesh, dual-density foam. Choose a colorway, pick your size, order.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --concrete:#E7E3DC;
+    --paper:#F2EFE9;
+    --ink:#14151A;
+    --steel:#4B5A62;
+    --orange:#FF4F12;
+    --line:#C9C3B6;
+    --shoe-accent:#FF4F12;
+    --shoe-body:#DCD7CC;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--concrete);
+    color:var(--ink);
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3{
+    font-family:'Archivo Black', 'Archivo', sans-serif;
+    font-weight:400;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  a{color:inherit;}
+  button{font-family:inherit; cursor:pointer;}
+
+  :focus-visible{
+    outline:2px solid var(--orange);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* NAV */
+  header.nav{
+    position:sticky; top:0; z-index:20;
+    background:var(--concrete);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    font-family:'Archivo Black', sans-serif;
+    font-size:20px;
+    letter-spacing:-0.02em;
+  }
+  .logo span{color:var(--orange);}
+  .nav-links{
+    display:flex; gap:28px; align-items:center;
+    font-size:13px;
+  }
+  .nav-links a{text-decoration:none; border-bottom:1px solid transparent;}
+  .nav-links a:hover{border-bottom-color:var(--ink);}
+  .cart-pill{
+    border:1px solid var(--ink);
+    padding:6px 12px;
+    font-size:13px;
+    background:var(--paper);
+  }
+  .menu-btn{display:none; background:none; border:1px solid var(--ink); padding:8px 10px;}
+
+  /* HERO */
+  .hero{
+    padding:64px 0 40px;
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:56px;
+    align-items:center;
+  }
+  .eyebrow{
+    color:var(--steel);
+    font-size:13px;
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow .dot{
+    width:7px; height:7px; border-radius:50%; background:var(--orange); display:inline-block;
+  }
+  .hero h1{
+    font-size:clamp(40px, 5.4vw, 68px);
+    line-height:0.98;
+  }
+  .hero p.lede{
+    max-width:46ch;
+    margin-top:20px;
+    color:var(--steel);
+    font-size:15px;
+  }
+  .hero-ctas{
+    margin-top:32px;
+    display:flex; gap:14px; align-items:center;
+  }
+  .btn-primary{
+    background:var(--ink);
+    color:var(--paper);
+    border:1px solid var(--ink);
+    padding:13px 22px;
+    font-size:13.5px;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .btn-primary:hover{background:var(--orange); border-color:var(--orange); color:var(--ink);}
+  .btn-ghost{
+    background:none;
+    border:1px solid var(--ink);
+    padding:13px 22px;
+    font-size:13.5px;
+  }
+  .btn-ghost:hover{background:var(--paper);}
+
+  .schematic-box{
+    border:1px solid var(--line);
+    background:var(--paper);
+    padding:18px;
+  }
+  .schematic-box svg{width:100%; height:auto; display:block;}
+
+  /* spec strip */
+  .spec-strip{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    flex-wrap:wrap;
+  }
+  .spec-strip .item{
+    flex:1 1 200px;
+    padding:20px 32px;
+    border-left:1px solid var(--line);
+  }
+  .spec-strip .item:first-child{border-left:none;}
+  .spec-strip .item .k{color:var(--steel); font-size:12.5px; margin-bottom:6px;}
+  .spec-strip .item .v{font-family:'Archivo Black', sans-serif; font-size:20px;}
+
+  /* SECTION generic */
+  section{padding:72px 0;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:36px;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{font-size:clamp(26px,3vw,36px);}
+  .section-head .idx{color:var(--steel); font-size:13px;}
+
+  /* COLORWAYS */
+  .swatch-row{
+    display:flex; gap:14px; flex-wrap:wrap;
+  }
+  .swatch{
+    border:1px solid var(--line);
+    background:var(--paper);
+    padding:14px;
+    width:150px;
+    text-align:left;
+  }
+  .swatch .chip{
+    width:100%; height:64px; border:1px solid var(--line); margin-bottom:12px;
+  }
+  .swatch .name{font-size:12.5px; display:block;}
+  .swatch[aria-pressed="true"]{border-color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink);}
+
+  /* BUILDER */
+  .builder{
+    display:grid;
+    grid-template-columns:1fr 340px;
+    gap:56px;
+    align-items:start;
+  }
+  .field-label{font-size:12.5px; color:var(--steel); margin-bottom:12px;}
+  .size-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:8px;
+    margin-bottom:36px;
+  }
+  .size-btn{
+    border:1px solid var(--line);
+    background:var(--paper);
+    padding:12px 0;
+    font-size:13px;
+    text-align:center;
+  }
+  .size-btn:hover{border-color:var(--ink);}
+  .size-btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+
+  .summary-box{
+    border:1px solid var(--ink);
+    background:var(--paper);
+    padding:24px;
+  }
+  .summary-box .row{
+    display:flex; justify-content:space-between;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    font-size:13.5px;
+  }
+  .summary-box .row:last-of-type{border-bottom:none;}
+  .price{
+    font-family:'Archivo Black', sans-serif;
+    font-size:30px;
+    margin:18px 0 14px;
+  }
+  .buy-btn{
+    width:100%;
+    background:var(--ink);
+    color:var(--paper);
+    border:1px solid var(--ink);
+    padding:15px 0;
+    font-size:14px;
+    text-align:center;
+    text-decoration:none;
+    display:block;
+  }
+  .buy-btn:hover{background:var(--orange); border-color:var(--orange); color:var(--ink);}
+  .buy-btn[data-disabled="true"]{opacity:0.45; pointer-events:none;}
+  .integration-note{
+    font-size:11.5px;
+    color:var(--steel);
+    margin-top:12px;
+    line-height:1.5;
+  }
+
+  /* DOSSIER */
+  .dossier{
+    border-top:1px solid var(--line);
+  }
+  .dossier .row{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:24px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .dossier .row .k{color:var(--steel); font-size:13px;}
+  .dossier .row .v{font-size:14px;}
+
+  /* FAQ */
+  details{
+    border-bottom:1px solid var(--line);
+    padding:18px 0;
+  }
+  summary{
+    font-family:'Archivo Black', sans-serif;
+    font-size:16px;
+    cursor:pointer;
+    list-style:none;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:"+"; font-size:22px; color:var(--steel);}
+  details[open] summary::after{content:"–";}
+  details p{color:var(--steel); font-size:14px; max-width:60ch; margin:14px 0 0;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:40px 0;
+  }
+  .foot-row{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  }
+  .foot-note{color:var(--steel); font-size:12px; max-width:50ch;}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr; padding-top:40px;}
+    .builder{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .menu-btn{display:block;}
+    .dossier .row{grid-template-columns:140px 1fr;}
+    .wrap{padding:0 20px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-row">
+    <div class="logo">sole<span>X</span></div>
+    <nav class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#specs">Specs</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <div class="cart-pill">Cart · <span id="cartCount">0</span></div>
+      <button class="menu-btn" aria-label="Menu">≡</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero wrap" style="padding-bottom:0;">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Now shipping · UK 6–12</div>
+      <h1>The P-6000,<br>remastered.</h1>
+      <p class="lede">A chunky retro runner rebuilt with ripstop mesh, dual-density foam and a waffle outsole. Loud enough for the street, soft enough to forget you're wearing it.</p>
+      <div class="hero-ctas">
+        <a href="#shop" class="btn-primary">Shop the P-6000</a>
+        <a href="#specs" class="btn-ghost">See full specs</a>
+      </div>
+    </div>
+    <div class="schematic-box">
+      <svg viewBox="0 0 900 460" role="img" aria-labelledby="shoeTitle shoeDesc">
+        <title id="shoeTitle">Technical diagram of the P-6000</title>
+        <desc id="shoeDesc">Side profile schematic of the shoe showing the upper, midsole, outsole and heel overlay, with labelled leader lines.</desc>
+
+        <!-- ground line -->
+        <line x1="60" y1="360" x2="840" y2="360" stroke="var(--line)" stroke-width="1"/>
+
+        <!-- outsole -->
+        <path d="M120,355 C160,340 220,332 300,330 C420,328 560,330 660,338 C720,342 760,348 780,358 L780,375 C700,388 500,392 300,390 C220,388 160,382 120,372 Z"
+              fill="var(--ink)" opacity="0.9"/>
+
+        <!-- midsole -->
+        <path d="M130,330 C170,312 230,302 310,300 C430,298 570,300 665,310 C715,314 745,320 765,332 L768,352 C700,342 500,338 300,340 C220,342 165,346 130,352 Z"
+              fill="var(--shoe-body)" stroke="var(--steel)" stroke-width="1.5"/>
+
+        <!-- upper body -->
+        <path d="M150,300 C160,250 190,205 250,180 C300,158 360,150 420,150 C470,150 500,160 520,175
+                 C560,150 610,145 650,158 C690,170 715,195 725,225
+                 C745,230 765,245 775,270 C782,290 780,310 765,325
+                 C700,308 500,300 310,302 C240,304 190,306 150,300 Z"
+              fill="var(--shoe-accent)" opacity="0.92"/>
+
+        <!-- overlay panel -->
+        <path d="M420,152 C470,150 500,162 518,176 C540,200 545,230 535,255
+                 C500,260 450,258 410,246 C395,220 400,180 420,152 Z"
+              fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5" opacity="0.85"/>
+
+        <!-- laces -->
+        <line x1="330" y1="185" x2="300" y2="220" stroke="var(--ink)" stroke-width="3"/>
+        <line x1="350" y1="205" x2="320" y2="240" stroke="var(--ink)" stroke-width="3"/>
+        <line x1="370" y1="225" x2="340" y2="260" stroke="var(--ink)" stroke-width="3"/>
+        <line x1="390" y1="245" x2="360" y2="280" stroke="var(--ink)" stroke-width="3"/>
+
+        <!-- heel tab -->
+        <path d="M725,225 C745,230 765,245 775,270 C782,290 780,310 765,325 C758,300 748,270 725,225 Z"
+              fill="var(--ink)"/>
+
+        <!-- leader lines + callouts -->
+        <g stroke="var(--steel)" stroke-width="1" fill="none">
+          <line x1="260" y1="185" x2="200" y2="110"/>
+          <line x1="470" y1="160" x2="470" y2="90"/>
+          <line x1="700" y1="185" x2="770" y2="120"/>
+          <line x1="420" y1="335" x2="420" y2="410"/>
+        </g>
+        <circle cx="260" cy="185" r="3" fill="var(--ink)"/>
+        <circle cx="470" cy="160" r="3" fill="var(--ink)"/>
+        <circle cx="700" cy="185" r="3" fill="var(--ink)"/>
+        <circle cx="420" cy="335" r="3" fill="var(--ink)"/>
+
+        <text x="70" y="102" font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)">Ripstop mesh upper</text>
+        <text x="380" y="80" font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)">TPU overlay cage</text>
+        <text x="640" y="112" font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)" text-anchor="end">3M reflective heel</text>
+        <text x="420" y="432" font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)" text-anchor="middle">Dual-density foam + waffle outsole</text>
+      </svg>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="spec-strip">
+      <div class="item"><div class="k">Weight (UK8)</div><div class="v">320g</div></div>
+      <div class="item"><div class="k">Heel stack</div><div class="v">22mm</div></div>
+      <div class="item"><div class="k">Drop</div><div class="v">8mm</div></div>
+      <div class="item"><div class="k">Sizes</div><div class="v">UK 6–12</div></div>
+    </div>
+  </div>
+
+  <!-- SHOP: colorway + builder -->
+  <section id="shop" class="wrap">
+    <div class="section-head">
+      <h2>Choose your colorway</h2>
+      <div class="idx">01 / 04</div>
+    </div>
+    <div class="swatch-row" id="swatchRow" role="group" aria-label="Colorway selection">
+      <button class="swatch" data-name="Concrete Grey" data-hex="#8C8A82" aria-pressed="true">
+        <span class="chip" style="background:#8C8A82;"></span>
+        <span class="name">Concrete Grey</span>
+      </button>
+      <button class="swatch" data-name="Sail / Black" data-hex="#1B1C1F" aria-pressed="false">
+        <span class="chip" style="background:#1B1C1F;"></span>
+        <span class="name">Sail / Black</span>
+      </button>
+      <button class="swatch" data-name="Guava Sunset" data-hex="#FF4F12" aria-pressed="false">
+        <span class="chip" style="background:#FF4F12;"></span>
+        <span class="name">Guava Sunset</span>
+      </button>
+      <button class="swatch" data-name="Metallic Pewter" data-hex="#B7B2A6" aria-pressed="false">
+        <span class="chip" style="background:#B7B2A6;"></span>
+        <span class="name">Metallic Pewter</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top:0;">
+    <div class="section-head">
+      <h2>Your pair</h2>
+      <div class="idx">02 / 04</div>
+    </div>
+    <div class="builder">
+      <div>
+        <div class="field-label">UK size</div>
+        <div class="size-grid" id="sizeGrid" role="group" aria-label="Size selection">
+          <!-- sizes injected by JS -->
+        </div>
+        <div class="field-label">Quantity</div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <button class="btn-ghost" id="qtyMinus" aria-label="Decrease quantity">–</button>
+          <span id="qtyValue" style="min-width:20px; text-align:center;">1</span>
+          <button class="btn-ghost" id="qtyPlus" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <div class="row"><span>Model</span><span>P-6000</span></div>
+        <div class="row"><span>Colorway</span><span id="sumColor">Concrete Grey</span></div>
+        <div class="row"><span>Size</span><span id="sumSize">Select a size</span></div>
+        <div class="row"><span>Qty</span><span id="sumQty">1</span></div>
+        <div class="price">£<span id="sumPrice">140.00</span></div>
+        <a href="#" class="buy-btn" id="buyBtn" data-disabled="true">Select a size</a>
+        <div class="integration-note">No payment provider connected yet. Wire the Buy button to a Stripe Payment Link, Shopify Buy Button, or Snipcart checkout — see README.md.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEC DOSSIER -->
+  <section id="specs" class="wrap">
+    <div class="section-head">
+      <h2>Full spec dossier</h2>
+      <div class="idx">03 / 04</div>
+    </div>
+    <div class="dossier">
+      <div class="row"><div class="k">Upper</div><div class="v">Ripstop mesh with layered suede and TPU overlays for structure without added weight.</div></div>
+      <div class="row"><div class="k">Midsole</div><div class="v">Dual-density EVA foam — firmer underfoot, softer at the heel strike.</div></div>
+      <div class="row"><div class="k">Outsole</div><div class="v">Waffle-pattern rubber, multi-surface traction, non-marking.</div></div>
+      <div class="row"><div class="k">Lacing</div><div class="v">Flat cotton laces, 7-eyelet, reinforced lace loops.</div></div>
+      <div class="row"><div class="k">Detailing</div><div class="v">3M reflective overlay at the heel, debossed sockliner branding.</div></div>
+      <div class="row"><div class="k">Fit</div><div class="v">True to size. Roomy toe box — size down half a size if between sizes.</div></div>
+      <div class="row"><div class="k">Care</div><div class="v">Wipe clean with a damp cloth. Air dry away from direct heat.</div></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="wrap">
+    <div class="section-head">
+      <h2>Shipping &amp; returns</h2>
+      <div class="idx">04 / 04</div>
+    </div>
+    <details open>
+      <summary>How long does delivery take?</summary>
+      <p>Orders placed before 2pm ship the same day. UK delivery takes 2–4 working days; international 5–10 working days.</p>
+    </details>
+    <details>
+      <summary>What's the returns policy?</summary>
+      <p>Free returns within 30 days of delivery, unworn and in original packaging. Refunds are issued to your original payment method.</p>
+    </details>
+    <details>
+      <summary>How do I know my size?</summary>
+      <p>The P-6000 fits true to size with a roomy toe box. If you're between sizes, we recommend sizing down by half a size.</p>
+    </details>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="logo" style="font-size:16px;">sole<span>X</span></div>
+    <div class="foot-note">Demo storefront template for the P-6000. Connect a real payment provider to start taking orders — see README.md.</div>
+  </div>
+</footer>
+
+<script>
+  // ---- state ----
+  const state = { colorway: 'Concrete Grey', hex: '#8C8A82', size: null, qty: 1 };
+  const PRICE = 140.00;
+
+  // ---- colorway swatches ----
+  const swatchRow = document.getElementById('swatchRow');
+  swatchRow.querySelectorAll('.swatch').forEach(btn => {
+    btn.addEventListener('click', () => {
+      swatchRow.querySelectorAll('.swatch').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      state.colorway = btn.dataset.name;
+      state.hex = btn.dataset.hex;
+      document.documentElement.style.setProperty('--shoe-accent', state.hex);
+      document.getElementById('sumColor').textContent = state.colorway;
+      updateSummary();
+    });
+  });
+
+  // ---- sizes ----
+  const sizes = ['6','6.5','7','7.5','8','8.5','9','9.5','10','10.5','11','12'];
+  const sizeGrid = document.getElementById('sizeGrid');
+  sizes.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'size-btn';
+    b.type = 'button';
+    b.textContent = s;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      sizeGrid.querySelectorAll('.size-btn').forEach(x => x.setAttribute('aria-pressed', 'false'));
+      b.setAttribute('aria-pressed', 'true');
+      state.size = s;
+      updateSummary();
+    });
+    sizeGrid.appendChild(b);
+  });
+
+  // ---- quantity ----
+  document.getElementById('qtyMinus').addEventListener('click', () => {
+    state.qty = Math.max(1, state.qty - 1);
+    document.getElementById('qtyValue').textContent = state.qty;
+    updateSummary();
+  });
+  document.getElementById('qtyPlus').addEventListener('click', () => {
+    state.qty = Math.min(6, state.qty + 1);
+    document.getElementById('qtyValue').textContent = state.qty;
+    updateSummary();
+  });
+
+  // ---- summary + buy button ----
+  const buyBtn = document.getElementById('buyBtn');
+  function updateSummary(){
+    document.getElementById('sumSize').textContent = state.size ? ('UK ' + state.size) : 'Select a size';
+    document.getElementById('sumQty').textContent = state.qty;
+    document.getElementById('sumPrice').textContent = (PRICE * state.qty).toFixed(2);
+
+    if(state.size){
+      buyBtn.dataset.disabled = 'false';
+      buyBtn.textContent = 'Continue to checkout';
+      // Placeholder checkout URL — replace with a real Stripe Payment Link,
+      // Shopify Buy Button, or Snipcart checkout endpoint. Selection is passed
+      // as query params so the receiving checkout can read it.
+      const params = new URLSearchParams({
+        model: 'P-6000',
+        colorway: state.colorway,
+        size: state.size,
+        qty: state.qty
+      });
+      buyBtn.href = '#checkout?' + params.toString();
+    } else {
+      buyBtn.dataset.disabled = 'true';
+      buyBtn.textContent = 'Select a size';
+      buyBtn.href = '#';
+    }
+  }
+  updateSummary();
+
+  // ---- cart count (session only, resets on reload) ----
+  let cartCount = 0;
+  buyBtn.addEventListener('click', (e) => {
+    if(buyBtn.dataset.disabled === 'true'){ e.preventDefault(); return; }
+    e.preventDefault();
+    cartCount += state.qty;
+    document.getElementById('cartCount').textContent = cartCount;
+    buyBtn.textContent = 'Added — connect checkout to pay';
+  });
+</script>
+
+</body>
+</html>
